@@ -1,0 +1,39 @@
+volumes:
+  postgres_storage:
+  ollama_storage:
+  qdrant_storage:
+
+networks:
+  poc:
+
+services:
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    networks: ['poc']
+    restart: unless-stopped
+    ports:
+      - 11434:11434
+    volumes:
+      - ollama_storage:/root/.ollama
+
+  init-ollama:
+    image: ollama/ollama:latest
+    networks: ['poc']
+    container_name: ollama-pull-llama
+    volumes:
+      - ollama_storage:/root/.ollama
+    entrypoint: /bin/sh
+    command:
+      - "-c"
+      - "sleep 3; OLLAMA_HOST=ollama:11434 ollama pull llama3.1"
+  
+  qdrant:
+    image: qdrant/qdrant
+    container_name: qdrant
+    networks: ['poc']
+    restart: unless-stopped
+    ports:
+      - 6333:6333
+    volumes:
+      - qdrant_storage:/qdrant/storage

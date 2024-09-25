@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Ingester\Ingester.csproj" Type="C#" />
+  <Properties Name="Visual Studio">
+    <Property Name="OpenWith" Value="Visual Studio Version 17" />
+  </Properties>
+</Solution>

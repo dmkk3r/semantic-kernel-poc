@@ -1,0 +1,6 @@
+@Ingester_HostAddress = http://localhost:5286
+
+GET {{Ingester_HostAddress}}/ingest/
+Accept: application/json
+
+###
