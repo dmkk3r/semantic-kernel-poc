@@ -17,16 +17,27 @@ services:
     volumes:
       - ollama_storage:/root/.ollama
 
-  init-ollama:
+  init-ollama-text-model:
     image: ollama/ollama:latest
     networks: ['poc']
-    container_name: ollama-pull-llama
+    container_name: init-ollama-text-model
     volumes:
       - ollama_storage:/root/.ollama
     entrypoint: /bin/sh
     command:
       - "-c"
-      - "sleep 3; OLLAMA_HOST=ollama:11434 ollama pull llama3.1"
+      - "sleep 3; OLLAMA_HOST=ollama:11434 ollama pull llama3.1:8b"
+
+  init-ollama-embedding-model:
+    image: ollama/ollama:latest
+    networks: ['poc']
+    container_name: init-ollama-embedding-model
+    volumes:
+      - ollama_storage:/root/.ollama
+    entrypoint: /bin/sh
+    command:
+      - "-c"
+      - "sleep 3; OLLAMA_HOST=ollama:11434 ollama pull nomic-embed-text"
   
   qdrant:
     image: qdrant/qdrant
