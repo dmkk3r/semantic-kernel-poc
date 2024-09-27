@@ -1,0 +1,6 @@
+@Inferencer_HostAddress = http://localhost:5075
+
+GET {{Inferencer_HostAddress}}/
+Accept: application/json
+
+###
