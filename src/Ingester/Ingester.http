@@ -4,3 +4,8 @@ GET {{Ingester_HostAddress}}/ingest/
 Accept: application/json
 
 ###
+
+GET {{Ingester_HostAddress}}/ask/
+Accept: application/json
+
+###
