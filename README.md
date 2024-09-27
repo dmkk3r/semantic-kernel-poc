@@ -1,4 +1,4 @@
-# SemanticKernel Proof of Concept
+# semantic-kernel Proof of Concept
 
 [![Licence](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
@@ -6,7 +6,8 @@ This repository contains a proof of concept for using SemanticKernel in dotnet 8
 
 ## Features
 
-- Ingest files and store embeddings in qdrant
+- Ingest files with [kernel-memory](https://github.com/microsoft/kernel-memory) and store embeddings in qdrant
+- Inference with [semantic-kernel](https://github.com/microsoft/semantic-kernel) and embeddings from qdrant
 
 ## License
 
