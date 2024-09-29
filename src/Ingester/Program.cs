@@ -9,6 +9,7 @@ using Microsoft.KernelMemory.Pipeline.Queue.DevTools;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddLogging();
+
 builder.Services.AddKernelMemory(kmBuilder =>
     {
         var ollamaEndpoint = builder.Configuration["OllamaEndpoint"] ??
@@ -36,11 +37,9 @@ builder.Services.AddKernelMemory(kmBuilder =>
             StorageType = FileSystemTypes.Volatile,
         };
 
-        OllamaConfig ollamaConfig = new OllamaConfig
+        OllamaConfig ollamaConfig = new()
         {
             Endpoint = ollamaEndpoint,
-            //TextModel = new OllamaModelConfig("llama3.2:3b", 131072),
-            TextModel = new OllamaModelConfig("llama3.1:8b", 131072),
             EmbeddingModel = new OllamaModelConfig("nomic-embed-text", 2048)
         };
 
@@ -52,9 +51,7 @@ builder.Services.AddKernelMemory(kmBuilder =>
         kmBuilder.WithSimpleQueuesPipeline(queuesConfig)
             .WithSimpleFileStorage(storageConfig)
             .WithQdrantMemoryDb(qdrantConfig)
-            .WithOllamaTextGeneration(ollamaConfig, new GPT4oTokenizer())
             .WithOllamaTextEmbeddingGeneration(ollamaConfig, new GPT4oTokenizer());
-            //.With(parseOptions);
     }
 );
 
@@ -68,18 +65,6 @@ app.MapGet("/ingest", async (TicketIngester ticketIngester) =>
     await ticketIngester.IngestAsync();
 
     return Results.Ok();
-});
-
-app.MapGet("/ask", async (IKernelMemory kernelMemory) =>
-{
-    var memoryAnswer =
-        await kernelMemory.AskAsync("Wie kann ich einen auftrag in lora anlegen?");
-
-    return Results.Ok(new
-    {
-        Answer = memoryAnswer.Result,
-        Sources = memoryAnswer.RelevantSources
-    });
 });
 
 app.Run();
