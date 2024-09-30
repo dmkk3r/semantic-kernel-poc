@@ -7,24 +7,7 @@ networks:
   poc:
 
 services:
-  ollama-nvidia:
-    image: ollama/ollama:latest
-    container_name: ollama
-    networks: ['poc']
-    restart: unless-stopped
-    ports:
-      - 11434:11434
-    volumes:
-      - ollama_storage:/root/.ollama
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: 1
-              capabilities: [gpu]
-
-  # ollama-amd:
+  # ollama-nvidia:
   #   image: ollama/ollama:latest
   #   container_name: ollama
   #   networks: ['poc']
@@ -33,6 +16,23 @@ services:
   #     - 11434:11434
   #   volumes:
   #     - ollama_storage:/root/.ollama
+  #   deploy:
+  #     resources:
+  #       reservations:
+  #         devices:
+  #           - driver: nvidia
+  #             count: 1
+  #             capabilities: [gpu]
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    networks: ['poc']
+    restart: unless-stopped
+    ports:
+      - 11434:11434
+    volumes:
+      - ollama_storage:/root/.ollama
 
   # init-ollama-text-model:
   #   image: ollama/ollama:latest
@@ -67,6 +67,17 @@ services:
       - "-c"
       - "sleep 3; OLLAMA_HOST=ollama:11434 ollama pull mistral-nemo:12b"
 
+  # init-ollama-embedding-model:
+  #   image: ollama/ollama:latest
+  #   networks: ['poc']
+  #   container_name: init-ollama-embedding-model
+  #   volumes:
+  #     - ollama_storage:/root/.ollama
+  #   entrypoint: /bin/sh
+  #   command:
+  #     - "-c"
+  #     - "sleep 3; OLLAMA_HOST=ollama:11434 ollama pull nomic-embed-text"
+
   init-ollama-embedding-model:
     image: ollama/ollama:latest
     networks: ['poc']
@@ -76,7 +87,7 @@ services:
     entrypoint: /bin/sh
     command:
       - "-c"
-      - "sleep 3; OLLAMA_HOST=ollama:11434 ollama pull nomic-embed-text"
+      - "sleep 3; OLLAMA_HOST=ollama:11434 ollama pull snowflake-arctic-embed:335m"
   
   qdrant:
     image: qdrant/qdrant

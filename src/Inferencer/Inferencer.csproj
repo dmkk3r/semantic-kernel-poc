@@ -15,6 +15,7 @@
 
     <ItemGroup>
       <PackageReference Include="Microsoft.KernelMemory.Service.AspNetCore" Version="0.75.240924.1" />
+      <PackageReference Include="Microsoft.KernelMemory.WebClient" Version="0.75.240924.1" />
       <PackageReference Include="Microsoft.SemanticKernel" Version="1.21.1" />
       <PackageReference Include="Microsoft.SemanticKernel.Agents.Core" Version="1.21.1-alpha" />
       <PackageReference Include="Microsoft.SemanticKernel.Connectors.Ollama" Version="1.21.1-alpha" />
