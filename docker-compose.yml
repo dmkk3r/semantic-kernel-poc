@@ -7,24 +7,7 @@ networks:
   poc:
 
 services:
-  # ollama-nvidia:
-  #   image: ollama/ollama:latest
-  #   container_name: ollama
-  #   networks: ['poc']
-  #   restart: unless-stopped
-  #   ports:
-  #     - 11434:11434
-  #   volumes:
-  #     - ollama_storage:/root/.ollama
-  #   deploy:
-  #     resources:
-  #       reservations:
-  #         devices:
-  #           - driver: nvidia
-  #             count: 1
-  #             capabilities: [gpu]
-
-  ollama-amd:
+  ollama-nvidia:
     image: ollama/ollama:latest
     container_name: ollama
     networks: ['poc']
@@ -33,17 +16,34 @@ services:
       - 11434:11434
     volumes:
       - ollama_storage:/root/.ollama
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
 
-  init-ollama-text-model:
-    image: ollama/ollama:latest
-    networks: ['poc']
-    container_name: init-ollama-text-model
-    volumes:
-      - ollama_storage:/root/.ollama
-    entrypoint: /bin/sh
-    command:
-      - "-c"
-      - "sleep 3; OLLAMA_HOST=ollama:11434 ollama pull llama3.1:8b"
+  # ollama-amd:
+  #   image: ollama/ollama:latest
+  #   container_name: ollama
+  #   networks: ['poc']
+  #   restart: unless-stopped
+  #   ports:
+  #     - 11434:11434
+  #   volumes:
+  #     - ollama_storage:/root/.ollama
+
+  # init-ollama-text-model:
+  #   image: ollama/ollama:latest
+  #   networks: ['poc']
+  #   container_name: init-ollama-text-model
+  #   volumes:
+  #     - ollama_storage:/root/.ollama
+  #   entrypoint: /bin/sh
+  #   command:
+  #     - "-c"
+  #     - "sleep 3; OLLAMA_HOST=ollama:11434 ollama pull llama3.1:8b"
 
   # init-ollama-text-model:
   #   image: ollama/ollama:latest
@@ -56,16 +56,16 @@ services:
   #     - "-c"
   #     - "sleep 3; OLLAMA_HOST=ollama:11434 ollama pull llama3.2:3b"
 
-  # init-ollama-text-model:
-  #   image: ollama/ollama:latest
-  #   networks: ['poc']
-  #   container_name: init-ollama-text-model
-  #   volumes:
-  #     - ollama_storage:/root/.ollama
-  #   entrypoint: /bin/sh
-  #   command:
-  #     - "-c"
-  #     - "sleep 3; OLLAMA_HOST=ollama:11434 ollama pull mistral-nemo:12b"
+  init-ollama-text-model:
+    image: ollama/ollama:latest
+    networks: ['poc']
+    container_name: init-ollama-text-model
+    volumes:
+      - ollama_storage:/root/.ollama
+    entrypoint: /bin/sh
+    command:
+      - "-c"
+      - "sleep 3; OLLAMA_HOST=ollama:11434 ollama pull mistral-nemo:12b"
 
   init-ollama-embedding-model:
     image: ollama/ollama:latest
